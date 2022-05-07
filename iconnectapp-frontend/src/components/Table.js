@@ -4,8 +4,8 @@ import TableContent from "./TableContent";
 const host="http://localhost:5000"
 
 const Table = () => {
-  const [companydata, setcompanydata] = useState({"":""});
-  async function fetchdata(){
+  const [companydata, setcompanydata] = useState([{key:"null","":""}]); //array only for map
+ const fetchdata= async ()=>{
     const response = await fetch(`${host}/fetchall`, {
       method: 'GET', 
       mode: 'cors', 
@@ -15,12 +15,12 @@ const Table = () => {
     });
     const json = await response.json();
     setcompanydata(json);
-    console.log(companydata);
+    
   }
-  useEffect(() => {
+useEffect(() => {
   fetchdata();
-// eslint-disable-next-line  
-},[]);
+}, [])
+
 
   return (
     <div>
