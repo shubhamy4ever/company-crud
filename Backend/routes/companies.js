@@ -2,8 +2,17 @@ const express = require("express");
 const router = express.Router();
 const Companymodel = require("../models/companymodels");
 
+// fetching all data
+router.get("/fetchall",async(req,res)=>{
+const alldata = await Companymodel.find({});
+if(!alldata){
+  return res.status(404).json({success,error:"cant find anything"});
+}
+res.json(alldata);
+});
 
-//fetching data to display in table from db
+
+//fetching data to display in table from db searched one
 router.get("/fetchdata", async (req, res) => {
     
   try {

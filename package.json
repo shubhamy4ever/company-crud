@@ -1,0 +1,18 @@
+{
+  "name": "iconnect_crud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd ./Backend && npm run start",
+    "devclient": "cd iconnectapp-frontend && npm run start",
+    "client": "serve -s build",
+    "development": "concurrently \"npm run devclient\" \"npm run server\"",
+    "production": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "author": "shubham yadav",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.1.0"
+  }
+}
