@@ -1,24 +1,26 @@
 /*css reset*/
-*{
-box-sizing:border-box;
-padding:0;
-margin:0;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
-.center{
-    display: block;
-    margin: auto auto;
+.center {
+  display: block;
+  margin: auto auto;
 }
-.left{
-   position: absolute;
-   right: 50px;
-
+.left {
+  position: absolute;
+  right: 50px;
 }
-.left-c{
-    display: block;
-   margin: auto 1100px;
-    
- 
- }
-.mousepoint{
-    cursor: pointer;
+.left-c {
+  display: block;
+  margin: auto 1100px;
+}
+.mousepoint {
+  cursor: pointer;
+}
+.aoverflow {
+  overflow-y: auto;
+  height: 40vh;
+  overflow-x: hidden;
 }

@@ -6,8 +6,9 @@ const url =
   "mongodb+srv://mainuser:1800123@cluster0.s4dmk.mongodb.net/IconnectCompany?retryWrites=true&w=majority";
 var cors = require("cors");
 
-//cors
+//cors cross origin resource sharing
 app.use(cors());
+
 
 //connect to database mongodb
 try {

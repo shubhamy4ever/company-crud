@@ -1,32 +1,25 @@
 import React from "react";
-import { useState,useRef } from "react";
+import { useState, useRef } from "react";
 import TableContent from "./TableContent";
 const host = "http://localhost:5000";
 
 const Table = (props) => {
-
-
+  //for closing opened model after submit
   const refClose = useRef(null);
 
-
-
-
-
-  //for editing details
-  const [compdetails, setcompdetails] = useState(
-    {name: "",
+  //for editing details : Edit route used here
+  const [compdetails, setcompdetails] = useState({
+    name: "",
     description: "",
     number: "",
     mail: "",
     state: "",
-    city: ""
-    }
-  );
+    city: "",
+  });
 
-  
   function editdetails(currentdetails) {
     setcompdetails({
-      id:currentdetails._id,
+      id: currentdetails._id,
       name: currentdetails.companyName,
       description: currentdetails.companyDescription,
       number: currentdetails.contactNumber,
@@ -36,7 +29,6 @@ const Table = (props) => {
     });
   }
 
-  
   function onChangehandler(e) {
     e.preventDefault();
     setcompdetails({ ...compdetails, [e.target.name]: e.target.value });
@@ -55,7 +47,7 @@ const Table = (props) => {
     );
   }
 
-  async function updatecomp(id,name, description, number, mail, state, city) {
+  async function updatecomp(id, name, description, number, mail, state, city) {
     // eslint-disable-next-line
     const response = await fetch(`${host}/editdata/${id}`, {
       method: "PUT",
@@ -67,8 +59,12 @@ const Table = (props) => {
     });
     refClose.current.click();
 
+    const json = await response.json();
+    if (json.success === true) {
       props.fetchdata();
-
+    } else {
+      props.showAlert(json.error, "danger");
+    }
   }
 
   return (
@@ -193,6 +189,7 @@ const Table = (props) => {
         <tbody>
           {props.companydata.map((comp) => {
             return (
+              //main map for the data to populate in particular component
               <TableContent
                 key={comp._id}
                 name={comp.companyName}
