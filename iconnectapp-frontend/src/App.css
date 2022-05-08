@@ -13,3 +13,12 @@ margin:0;
    right: 50px;
 
 }
+.left-c{
+    display: block;
+   margin: auto 1100px;
+    
+ 
+ }
+.mousepoint{
+    cursor: pointer;
+}

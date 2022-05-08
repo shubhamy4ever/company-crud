@@ -64,16 +64,16 @@ try{
 const {name,description,number,mail,state,city} = req.body;
 const updatedvalue ={};
 if(name){
-  updatedvalue.name = name;
+  updatedvalue.companyName = name;
 }
 if(description){
-  updatedvalue.description = description;
+  updatedvalue.companyDescription = description;
 }
 if(number){
-  updatedvalue.number = number;
+  updatedvalue.contactNumber = number;
 }
 if(mail){
-  updatedvalue.mail = mail;
+  updatedvalue.contactEmail = mail;
 }
 if(state){
   updatedvalue.state = state;
@@ -81,7 +81,6 @@ if(state){
 if(city){
   updatedvalue.city = city;
 }
-
 
 let companytoedit = await Companymodel.findById(req.params.id);
 if(!companytoedit){
@@ -91,7 +90,7 @@ if(!companytoedit){
 companytoedit = await Companymodel.findByIdAndUpdate(req.params.id,{
 $set:updatedvalue,
 });
-res.json(companytoedit);
+res.json(companytoedit,{msg:"Updated please refresh the page"});
 }catch(err){
   res.status(500).json({error:"internal server error"});
 }

@@ -1,20 +1,41 @@
-import React, { useState, useRef } from "react";
+import React, { useState , useEffect} from "react";
 import "./App.css";
 import Table from "./components/Table";
 import { GrSearch } from "react-icons/gr";
 const host = "http://localhost:5000";
 
 const App = () => {
-  let refClose = useRef();
   const [formdata, setformdata] = useState({
     key: "test data",
   });
+
+
+  //for fetching all on reload and startup
+  const [companydata, setcompanydata] = useState([{ key: "null", "": "" }]); //array only for map
+  const fetchdata = async () => {
+    const response = await fetch(`${host}/fetchall`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+    setcompanydata(json);
+  };
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
+
+  
 
   function onChangehandler(e) {
     setformdata({ ...formdata, [e.target.name]: e.target.value });
   }
 
-  function submitHandler() {
+  function submitHandler(e) {
+    e.preventDefault();
     addcomp(
       formdata.name,
       formdata.description,
@@ -26,6 +47,7 @@ const App = () => {
   }
 
   async function addcomp(name, description, number, mail, state, city) {
+    // eslint-disable-next-line
     const response = await fetch(`${host}/addcompany`, {
       method: "POST",
       mode: "cors",
@@ -34,8 +56,12 @@ const App = () => {
       },
       body: JSON.stringify({ name, description, number, mail, state, city }),
     });
-    refClose.current.click();
+    setformdata("");
   }
+
+
+//logic for state and city
+
 
   return (
     <div>
@@ -56,12 +82,14 @@ const App = () => {
 
         <button
           type="button"
-          className="btn btn-primary mx-4"
+          className="btn btn-primary  left-c"
           data-bs-toggle="modal"
           data-bs-target="#addmodal"
         >
           Add
         </button>
+
+
 
         {/* mainmodal for adding a company*/}
         <div
@@ -140,19 +168,9 @@ const App = () => {
                       onChange={onChangehandler}
                     />
                   </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  ref={refClose}
-                >
-                  Close
-                </button>
-                <input
+                  <input
                   type="submit"
+                  
                   value={"Add The Company"}
                   disabled={
                     formdata.name &&
@@ -165,15 +183,16 @@ const App = () => {
                       : true
                   }
                   onClick={submitHandler}
-                  className="btn btn-primary"
+                  className="btn btn-primary center"
                 />
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="container">
-        <Table />
+        <Table formdata={formdata} fetchdata={fetchdata} companydata={companydata}/>
       </div>
     </div>
   );
