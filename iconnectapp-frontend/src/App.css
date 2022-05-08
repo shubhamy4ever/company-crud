@@ -21,6 +21,6 @@
 }
 .aoverflow {
   overflow-y: auto;
-  height: 40vh;
-  overflow-x: hidden;
+  height: 60vh;
+  overflow-x: auto;
 }

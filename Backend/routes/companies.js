@@ -30,14 +30,11 @@ router.post("/addcompany", async (req, res) => {
     const { name, mail } = req.body; //destructuring
     let nameexistindb = await Companymodel.findOne({ companyName: name }); //dont forgot await
     let emailexistindb = await Companymodel.findOne({ contactEmail: mail }); //because it returns a promise
-    if (nameexistindb) {
+    if (nameexistindb || emailexistindb ) {
       let success = false;
       return res
         .status(409)
-        .send({ success, msg: "Company name should be unique" });
-    } else if (emailexistindb) {
-      let success = false;
-      return res.status(409).send({ success, msg: "Email should be unique" });
+        .send({ success, msg: "Company Name and Email should be unique" });
     }
     success = true;
     const companydata = new Companymodel({
@@ -49,7 +46,7 @@ router.post("/addcompany", async (req, res) => {
       city: req.body.city,
     });
     const saveDetails = await companydata.save();
-    res.json(saveDetails);
+    res.json({success,saveDetails});
   } catch (err) {
     res.status(500).json({ error: "internal server error" });
   }
@@ -84,10 +81,11 @@ router.put("/editdata/:id", async (req, res) => {
       success = false;
       res.status(400).json({ success, msg: "could'nt find data to update" });
     }
+    success=true;
     companytoedit = await Companymodel.findByIdAndUpdate(req.params.id, {
       $set: updatedvalue,
     });
-    res.json(companytoedit, { msg: "Updated sucessfully" });
+    res.json( { success,companytoedit,msg: "Updated sucessfully" });
   } catch (err) {
     res.status(500).json({ error: "Error Please Try Again" });
   }

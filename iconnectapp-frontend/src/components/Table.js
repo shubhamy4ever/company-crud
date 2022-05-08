@@ -62,6 +62,7 @@ const Table = (props) => {
     const json = await response.json();
     if (json.success === true) {
       props.fetchdata();
+      props.showAlert(json.msg, "success");
     } else {
       props.showAlert(json.error, "danger");
     }
